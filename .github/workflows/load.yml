@@ -31,7 +31,7 @@ jobs:
           GOOGLE_APPLICATION_CREDENTIALS: gcp-key.json
           # --- TODO: studenci uzupełniają poniższe trzy wartości ---
           BQ_PROJECT_ID: ib-grupa2
-          BQ_DATASET: dbt_mszymanski
+          BQ_DATASET: IDA_project
           BQ_TABLE: movies
         run: python extract_load.py
 
