@@ -2,9 +2,18 @@ name: Load data from Neon to BigQuery
 
 # Uruchamiane ręcznie (do testów na labie) lub wg harmonogramu
 on:
-  workflow_dispatch:      # pozwala odpalić workflow ręcznie z zakładki Actions
+  workflow_dispatch:
+    inputs:
+      load_mode:
+        description: 'Tryb ładowania (full_refresh lub incremental)'
+        required: true
+        default: 'full_refresh'
+        type: choice
+        options:
+          - full_refresh
+          - incremental
   schedule:
-    - cron: '0 6 * * *'   # przykładowy harmonogram: codziennie o 6:00 UTC
+    - cron: '0 6 * * *'
 
 jobs:
   extract-and-load:
@@ -29,10 +38,9 @@ jobs:
         env:
           NEON_CONNECTION_STRING: ${{ secrets.NEON_API_KEY }}
           GOOGLE_APPLICATION_CREDENTIALS: gcp-key.json
-          # --- TODO: studenci uzupełniają poniższe trzy wartości ---
-          BQ_PROJECT_ID: ib-grupa2
-          BQ_DATASET: IDA_project
-          BQ_TABLE: movies
+          BQ_PROJECT_ID: twoje-id-projektu-gcp   # <-- UZUPEŁNIJ
+          BQ_DATASET: landing                    # <-- UZUPEŁNIJ
+          LOAD_MODE: ${{ github.event.inputs.load_mode || 'incremental' }}
         run: python extract_load.py
 
       - name: Clean up key file
