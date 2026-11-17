@@ -45,7 +45,7 @@ def get_last_loaded_timestamp(bq_client: bigquery.Client, table_ref: str):
     Jeśli tabela w BigQuery jeszcze nie istnieje, zwraca None
     (co w praktyce oznacza "załaduj wszystko").
     """
-query = f"SELECT MAX({INCREMENTAL_COLUMN}) AS max_ts FROM `{table_ref}`"
+    query = f"SELECT MAX({INCREMENTAL_COLUMN}) AS max_ts FROM `{table_ref}`"
     try:
         result = bq_client.query(query).result()
         row = next(iter(result))
@@ -56,7 +56,7 @@ query = f"SELECT MAX({INCREMENTAL_COLUMN}) AS max_ts FROM `{table_ref}`"
 
 def extract_from_neon(table_name: str, mode: str, last_ts=None) -> pd.DataFrame:
     """Łączy się z bazą Neon i wyciąga dane z tabeli źródłowej."""
-conn = psycopg2.connect(NEON_CONNECTION_STRING)
+    conn = psycopg2.connect(NEON_CONNECTION_STRING)
     try:
         if mode == "incremental" and last_ts is not None:
             query = f"SELECT * FROM {table_name} WHERE {INCREMENTAL_COLUMN} > %s"
@@ -75,7 +75,7 @@ def load_to_bigquery(df: pd.DataFrame, table_ref: str, mode: str):
     full_refresh -> WRITE_TRUNCATE (nadpisuje całą tabelę)
     incremental  -> WRITE_APPEND   (dopisuje nowe wiersze)
     """
-bq_client = bigquery.Client()
+    bq_client = bigquery.Client()
     write_disposition = (
         bigquery.WriteDisposition.WRITE_TRUNCATE
         if mode == "full_refresh"
