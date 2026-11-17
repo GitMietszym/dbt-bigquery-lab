@@ -38,8 +38,8 @@ jobs:
         env:
           NEON_CONNECTION_STRING: ${{ secrets.NEON_API_KEY }}
           GOOGLE_APPLICATION_CREDENTIALS: gcp-key.json
-          BQ_PROJECT_ID: twoje-id-projektu-gcp   # <-- UZUPEŁNIJ
-          BQ_DATASET: landing                    # <-- UZUPEŁNIJ
+          BQ_PROJECT_ID: ib-grupa2   
+          BQ_DATASET: IDA_project                   
           LOAD_MODE: ${{ github.event.inputs.load_mode || 'incremental' }}
         run: python extract_load.py
 
